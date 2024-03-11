@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -38,6 +39,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 331310313
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Terrian
+    uniqueID: 3319598399
+    locked: 0
+  - name: Player
+    uniqueID: 3773434603
     locked: 0
