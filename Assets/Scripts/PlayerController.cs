@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private bool isOnGround = true;
     private Animator playerAnim;
     private SpriteRenderer playerSprite;
+
+    private enum MovementState { idle, running, jumping, falling}
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public void MoveLeft()
     {
         targetPosition = transform.position + Vector3.left;
-        playerAnim.SetBool("Running", true);
+        playerAnim.SetInteger("State", 1);
         playerSprite.flipX = true;
         //set running = faile while exit button
     }
@@ -28,14 +30,16 @@ public class PlayerController : MonoBehaviour
     public void MoveRight()
     {
         targetPosition = transform.position + Vector3.right;
-        playerAnim.SetBool("Running", true);
+        playerAnim.SetInteger("State", 1);
         playerSprite.flipX = false;
     }
 
     public void Jump()
     {
-        if(isOnGround == true && !GameManager.Instance.isGameOver) { 
-            playerRb.AddForce(Vector3.up * GameManager.Instance.playerJumpForce, ForceMode2D.Impulse);
+        if (isOnGround == true && !GameManager.Instance.isGameOver)
+        {
+            //playerRb.AddForce(Vector3.up * GameManager.Instance.playerJumpForce, ForceMode2D.Impulse);
+            playerRb.velocity = new Vector3(playerRb.velocity.x, GameManager.Instance.playerJumpForce, 0);
             isOnGround = false;
         }
     }
@@ -63,7 +67,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            playerAnim.SetBool("Running", false);
+            playerAnim.SetInteger("State", 0);
         }
         
 
@@ -72,7 +76,15 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if(transform.position.y < -2.5f) 
+        if(playerRb.velocity.y > 0.1f) 
+        {
+            playerAnim.SetInteger("State", 2);
+        }
+        if (playerRb.velocity.y < -0.1f)
+        {
+            playerAnim.SetInteger("State", 3);
+        }
+        if (transform.position.y < -2.5f) 
         {
             GameManager.Instance.GameOver();
         }
