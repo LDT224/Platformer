@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Terrain
+  - Melon
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
@@ -50,4 +52,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3773434603
+    locked: 0
+  - name: UI
+    uniqueID: 1646423931
     locked: 0

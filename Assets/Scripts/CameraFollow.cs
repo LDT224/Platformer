@@ -18,7 +18,14 @@ public class CameraFollow : MonoBehaviour
             smoothedPosition.y = transform.position.y;
             smoothedPosition.z = transform.position.z;
 
+            if (smoothedPosition.x < -6f)
+            {
+                smoothedPosition.x = -6f;
+            }
+
             transform.position = smoothedPosition;
+
+
         }
     }
 }

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public float playerJumpForce = 10;
     public float playerMoveSpeed = 7;
 
+    public int score = 0;
+
     public static GameManager Instance
     {
         get

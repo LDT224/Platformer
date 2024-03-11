@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isOnGround == true && !GameManager.Instance.isGameOver)
         {
-            //playerRb.AddForce(Vector3.up * GameManager.Instance.playerJumpForce, ForceMode2D.Impulse);
             playerRb.velocity = new Vector3(playerRb.velocity.x, GameManager.Instance.playerJumpForce, 0);
             isOnGround = false;
         }
@@ -49,6 +48,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Terrain"))
         {
             isOnGround = true;
+        }
+
+        if (collision.gameObject.CompareTag("Checkpoint"))
+        {
+            GameManager.Instance.score += 500;
+            Debug.Log(GameManager.Instance.score);
         }
     }
 
