@@ -7,20 +7,29 @@ public class PlayerController : MonoBehaviour
     private Vector3 targetPosition;
     private Rigidbody2D playerRb;
     private bool isOnGround = true;
+    private Animator playerAnim;
+    private SpriteRenderer playerSprite;
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        playerAnim = GetComponent<Animator>();
+        playerSprite = GetComponent<SpriteRenderer>();
     }
 
     public void MoveLeft()
     {
         targetPosition = transform.position + Vector3.left;
+        playerAnim.SetBool("Running", true);
+        playerSprite.flipX = true;
+        //set running = faile while exit button
     }
 
     public void MoveRight()
     {
         targetPosition = transform.position + Vector3.right;
+        playerAnim.SetBool("Running", true);
+        playerSprite.flipX = false;
     }
 
     public void Jump()
@@ -31,7 +40,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Terrain"))
         {
@@ -47,18 +56,23 @@ public class PlayerController : MonoBehaviour
             MoveLeft();
             transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             MoveRight();
             transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
         }
+        else
+        {
+            playerAnim.SetBool("Running", false);
+        }
+        
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
 
-        if(transform.position.y < -2.1f) 
+        if(transform.position.y < -2.5f) 
         {
             GameManager.Instance.GameOver();
         }
