@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public float playerMoveSpeed = 7;
 
     public int score = 0;
+    public int totalScore = 0;
+    public int currentLevel = 1;
+    public int hearts = 3;
 
     public static GameManager Instance
     {

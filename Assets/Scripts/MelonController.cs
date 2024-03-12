@@ -5,10 +5,12 @@ using UnityEngine;
 public class MelonController : MonoBehaviour
 {
     private Animator melonAnim;
+    private UIManager uiManager;
     // Start is called before the first frame update
     void Start()
     {
         melonAnim = GetComponent<Animator>();
+        uiManager = FindAnyObjectByType<UIManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,6 +25,7 @@ public class MelonController : MonoBehaviour
     {
         Destroy(this.gameObject);
         GameManager.Instance.score += 100;
+        uiManager.UpdateScore();
         Debug.Log(GameManager.Instance.score);
     }
     // Update is called once per frame
