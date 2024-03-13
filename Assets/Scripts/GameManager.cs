@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
 
     public int score = 0;
     public int totalScore = 0;
-    public int currentLevel = 1;
     public int hearts = 3;
 
     public static GameManager Instance
@@ -51,6 +50,6 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        Debug.Log("GameOver");
+        Time.timeScale = 0;
     }
 }

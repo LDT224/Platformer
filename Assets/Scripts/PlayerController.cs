@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
         targetPosition = transform.position + Vector3.left;
         playerAnim.SetInteger("State", 1);
         playerSprite.flipX = true;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
+
         //set running = faile while exit button
     }
 
@@ -56,19 +58,34 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Checkpoint"))
         {
             GameManager.Instance.score += 500;
+            GameManager.Instance.totalScore += GameManager.Instance.score;
             uiManager.UpdateScore();
-            Debug.Log(GameManager.Instance.score);
+            uiManager.WinPanel();
         }
         if (collision.gameObject.CompareTag("Enemy"))
         {
             isCollidingWithEnemy = true; 
             playerAnim.SetInteger("State", 4);
             GameManager.Instance.hearts -= 1;
+            GameManager.Instance.score -= 100;
+            if(GameManager.Instance.score < 0)
+            {
+                GameManager.Instance.score = 0;
+            }
+            uiManager.UpdateScore();
             uiManager.HitEnemy(GameManager.Instance.hearts);
             if(GameManager.Instance.hearts == 0)
             {
-                GameManager.Instance.GameOver();
+                uiManager.LosePanel();
             }
+        }
+        if (collision.gameObject.CompareTag("Trap"))
+        {
+            isCollidingWithEnemy = true;
+            playerAnim.SetInteger("State", 4);
+            GameManager.Instance.hearts = 0;
+            uiManager.HitTrap();
+            uiManager.LosePanel();
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -114,7 +131,7 @@ public class PlayerController : MonoBehaviour
             }
             if (transform.position.y < -2.5f)
             {
-                GameManager.Instance.GameOver();
+                uiManager.LosePanel();
             }
         }
     }
