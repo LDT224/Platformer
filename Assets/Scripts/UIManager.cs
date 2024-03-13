@@ -49,15 +49,16 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
-    public void Restart(string lv)
+    public void Restart()
     {
-        SceneManager.LoadScene(lv);
+        SceneManager.LoadScene("lv1");
     }
 
     public void LosePanel()
     {
         losePnl.SetActive(true);
         GameManager.Instance.GameOver();
+        GameManager.Instance.totalScore = 0;
     }
 
     public void NextLevel(string lv) 
