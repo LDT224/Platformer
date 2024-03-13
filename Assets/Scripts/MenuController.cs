@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("lv1");
+        GameManager.Instance.totalScore = 0;
     }
     // Update is called once per frame
     void Update()

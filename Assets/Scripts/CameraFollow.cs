@@ -6,7 +6,9 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform target; 
     public float smoothSpeed = 0.125f; 
-    public Vector3 offset; 
+    private Vector3 offset = new Vector3(2,0,0);
+    public int minX;
+    public int maxX;
 
     void LateUpdate()
     {
@@ -18,9 +20,13 @@ public class CameraFollow : MonoBehaviour
             smoothedPosition.y = transform.position.y;
             smoothedPosition.z = transform.position.z;
 
-            if (smoothedPosition.x < -6f)
+            if (smoothedPosition.x < minX)
             {
-                smoothedPosition.x = -6f;
+                smoothedPosition.x = minX;
+            }
+            if (smoothedPosition.x > maxX)
+            {
+                smoothedPosition.x = maxX;
             }
 
             transform.position = smoothedPosition;

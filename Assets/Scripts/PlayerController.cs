@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer playerSprite;
     private UIManager uiManager;
     private bool isCollidingWithEnemy = false;
-
+    private bool isMoving = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         playerAnim = GetComponent<Animator>();
         playerSprite = GetComponent<SpriteRenderer>();
-        uiManager = FindAnyObjectByType<UIManager>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     public void MoveLeft()
@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
         targetPosition = transform.position + Vector3.left;
         playerAnim.SetInteger("State", 1);
         playerSprite.flipX = true;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
 
         //set running = faile while exit button
     }
@@ -46,6 +45,33 @@ public class PlayerController : MonoBehaviour
             playerRb.velocity = new Vector3(playerRb.velocity.x, GameManager.Instance.playerJumpForce, 0);
             isOnGround = false;
         }
+    }
+
+    public void MoveLeftButtonDown()
+    {
+        MoveLeft();
+        isMoving = true;
+    }
+
+    public void MoveLeftButtonUp()
+    {
+        StopMoving();
+    }
+
+    public void MoveRightButtonDown()
+    {
+        MoveRight();
+        isMoving = true;
+    }
+
+    public void MoveRightButtonUp()
+    {
+        StopMoving();
+    }
+    private void StopMoving()
+    {
+        playerAnim.SetInteger("State", 0);
+        isMoving = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -94,6 +120,11 @@ public class PlayerController : MonoBehaviour
         {
             isCollidingWithEnemy = false; 
         }
+
+        if (collision.gameObject.CompareTag("Terrain"))
+        {
+            isOnGround = false;
+        }
     }
 
     // Update is called once per frame
@@ -121,6 +152,24 @@ public class PlayerController : MonoBehaviour
                 Jump();
             }
 
+            //if (isMoving)
+            //{               
+            //    transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
+
+            //    if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            //    {
+            //        StopMoving(); 
+            //    }
+            //}
+            //else
+            //{
+            //    playerAnim.SetInteger("State", 0);
+            //}
+            //if (isMoving)
+            //{
+            //    targetPosition = transform.position + (playerSprite.flipX ? Vector3.left : Vector3.right);
+            //}
+
             if (playerRb.velocity.y > 0.1f)
             {
                 playerAnim.SetInteger("State", 2);
@@ -129,7 +178,7 @@ public class PlayerController : MonoBehaviour
             {
                 playerAnim.SetInteger("State", 3);
             }
-            if (transform.position.y < -2.5f)
+            if (transform.position.y < -5)
             {
                 uiManager.LosePanel();
             }

@@ -49,9 +49,9 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
-    public void Restart()
+    public void Restart(string lv)
     {
-        SceneManager.LoadScene("lv1");
+        SceneManager.LoadScene(lv);
     }
 
     public void LosePanel()
