@@ -17,7 +17,8 @@ public class MelonController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            melonAnim.SetBool("Collected", true);            
+            melonAnim.SetBool("Collected", true);
+            AudioManager.instance.PlaySFX("Eat");
         }
     }
 

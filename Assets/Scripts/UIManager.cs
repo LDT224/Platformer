@@ -56,6 +56,7 @@ public class UIManager : MonoBehaviour
 
     public void LosePanel()
     {
+        AudioManager.instance.PlaySFX("Lose");
         losePnl.SetActive(true);
         GameManager.Instance.GameOver();
         GameManager.Instance.totalScore = 0;

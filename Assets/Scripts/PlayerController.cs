@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.totalScore += GameManager.Instance.score;
             uiManager.UpdateScore();
             uiManager.WinPanel();
+            AudioManager.instance.PlaySFX("Win");
         }
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetInteger("State", 4);
             GameManager.Instance.hearts -= 1;
             GameManager.Instance.score -= 100;
-            if(GameManager.Instance.score < 0)
+            if (GameManager.Instance.score < 0)
             {
                 GameManager.Instance.score = 0;
             }
@@ -103,6 +104,10 @@ public class PlayerController : MonoBehaviour
             if(GameManager.Instance.hearts == 0)
             {
                 uiManager.LosePanel();
+            }
+            else
+            {
+                AudioManager.instance.PlaySFX("Hit");
             }
         }
         if (collision.gameObject.CompareTag("Trap"))
@@ -132,43 +137,43 @@ public class PlayerController : MonoBehaviour
     {
         if (!isCollidingWithEnemy) 
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                MoveLeft();
-                transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                MoveRight();
-                transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
-            }
-            else
-            {
-                playerAnim.SetInteger("State", 0);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Jump();
-            }
-
-            //if (isMoving)
-            //{               
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    MoveLeft();
             //    transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
-
-            //    if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
-            //    {
-            //        StopMoving(); 
-            //    }
+            //}
+            //else if (Input.GetKey(KeyCode.D))
+            //{
+            //    MoveRight();
+            //    transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
             //}
             //else
             //{
             //    playerAnim.SetInteger("State", 0);
             //}
-            //if (isMoving)
+
+            //if (Input.GetKeyDown(KeyCode.Space))
             //{
-            //    targetPosition = transform.position + (playerSprite.flipX ? Vector3.left : Vector3.right);
+            //    Jump();
             //}
+
+            if (isMoving)
+            {
+                transform.position = Vector3.Lerp(transform.position, targetPosition, GameManager.Instance.playerMoveSpeed * Time.deltaTime);
+
+                if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+                {
+                    StopMoving();
+                }
+            }
+            else
+            {
+                playerAnim.SetInteger("State", 0);
+            }
+            if (isMoving)
+            {
+                targetPosition = transform.position + (playerSprite.flipX ? Vector3.left : Vector3.right);
+            }
 
             if (playerRb.velocity.y > 0.1f)
             {
